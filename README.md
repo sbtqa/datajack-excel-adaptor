@@ -1,5 +1,5 @@
 # datajack-excel-adaptor
-[![Build Status](https://travis-ci.org/sbtqa/datajack-excel-adaptor.svg?branch=master)](https://travis-ci.org/sbtqa/datajack-excel-adaptor) [![GitHub release](https://img.shields.io/github/release/sbtqa/datajack-excel-adaptor.svg?style=flat-square)](https://github.com/sbtqa/datajack-excel-adaptor/releases) [![Maven Central](https://img.shields.io/maven-central/v/ru.sbtqa.tag/swing-back.svg)](https://mvnrepository.com/artifact/ru.sbtqa.tag/datajack-excel-adaptor)
+[![Build Status](https://travis-ci.org/sbtqa/datajack-excel-adaptor.svg?branch=master)](https://travis-ci.org/sbtqa/datajack-excel-adaptor) [![GitHub release](https://img.shields.io/github/release/sbtqa/datajack-excel-adaptor.svg?style=flat-square)](https://github.com/sbtqa/datajack-excel-adaptor/releases)
 
 datajack-excel-adaptor is the realization of [DataJack](https://github.com/sbtqa/datajack). Implement support for Excel.
 
