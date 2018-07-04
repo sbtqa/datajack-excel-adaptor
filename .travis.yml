@@ -1,0 +1,37 @@
+language: java
+addons:
+  sonarqube: true
+jdk:
+  - oraclejdk8
+before_install:
+  - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
+  - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
+install:
+  - mvn clean --settings .travis/settings.xml install -DskipTests=true -Dmaven.javadoc.skip=true -Dgpg.skip -B -V
+script:
+  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent sonar:sonar -Dsonar.login=$SONAR_TOKEN
+deploy:
+  - provider: script
+    script: ".travis/deploy.sh"
+    skip_cleanup: true
+    on:
+      repo: sbtqa/datajack-excel-adaptor
+      branch: master
+      jdk: oraclejdk8
+  - provider: script
+    script: ".travis/deploy.sh"
+    skip_cleanup: true
+    on:
+      repo: sbtqa/datajack-excel-adaptor
+      tags: true
+      jdk: oraclejdk8
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure: Zv13/E7hcmJKLER7wOGfIZhj+wi9YRNzGL5Tn/P/3QVQCN6AsLw/h17T1qpCNlC3JphHDGWcMCvMENlwkAAF09296JdMPg3zmGBvgX+spuv/9gHWkbnZ5Z6Iope1sCFvvzl1cTN6/YrC88KOeAhMO1vJWND7vQuHc6QhTIJRrglCeFWD5sClL5QrE83tKssxAyqLu3ZeGdSqyw0X3tb0RGJpwBDDrGdkYPTRtKGWgp2fyJm1bqTtRJ3gVBL5vuhis3pKJkthqbCBj/5Q/d7Lg48PBGQ5dVARou6nVgXCslR0NFP2Q2NBuq1FI+TAln1/tGVtPbEeObIFUyA69U76DAwhTxy7HAuO7i6Ia8eacFHXW9VuAd812qyvTnahjBKltBPYAHZNwNuqZqPPvZtTTX9tSVrzxqs0SslvCKp3Di32xg7dzRm6jKPm9MLyERK6Hf/hdd6HbZGFwqQpbOUPbAAp2BOONEYTvnZnUJzgcMcSvcMGBTEg62T5VcpopZHO0xhWv+VWp8yQGYi56Y/t7VEC/qXnJ28clYwaMmLTwAI+XWmKdyfPoNxDEvH0aILUVJvXO3gjEcZJ8NynZrk1CU5ogQ+BVWxqKpfohc7xn0sq7lLoagbY8KQpygVrZ9Ql0rhCorE7Q4koVmQaUZkjrljSlsAnF9EQqENousV2N5w=
+    template:
+      - "Build status: %{message}"
+      - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{commit_message}"
+      - "Change view : %{compare_url}"
+      - "Build details : %{build_url}"
