@@ -38,6 +38,13 @@ public class ExcellDataTest {
     public ExpectedException expectDataExceptions = none();
 
     @Test
+    public void isReferenceTest() throws DataException, IOException, InvalidFormatException {
+        TestDataObject tdo = new ExcelDataObjectAdaptor(this.excellDataPath, collectionName);
+        assertTrue("Value is not reference",
+                tdo.get("Common.linkWithValue").isReference());
+    }
+    
+    @Test
     public void getReferenceTest() throws DataException, IOException, InvalidFormatException {
         TestDataObject tdo = new ExcelDataObjectAdaptor(this.excellDataPath, collectionName);
         assertEquals("value",
