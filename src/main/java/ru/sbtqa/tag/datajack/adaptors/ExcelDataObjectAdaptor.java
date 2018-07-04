@@ -28,7 +28,6 @@ import ru.sbtqa.tag.datajack.exceptions.GeneratorException;
 import ru.sbtqa.tag.datajack.exceptions.ReferenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.sbtqa.tag.datajack.adaptors.AbstractDataObjectAdaptor;
 
 public class ExcelDataObjectAdaptor extends AbstractDataObjectAdaptor implements TestDataObject {
 
@@ -421,5 +420,14 @@ public class ExcelDataObjectAdaptor extends AbstractDataObjectAdaptor implements
         }
 
         return value;
+    }
+
+    @Override
+    public boolean isReference() throws DataException {
+        Object value = this.basicObj.get("value");
+        if (!(value instanceof BasicDBObject)) {
+            return false;
+        }
+        return ((BasicDBObject) value).containsField(SHEET_NAME_TPL) && ((BasicDBObject) value).containsField("path");
     }
 }
